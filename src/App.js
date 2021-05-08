@@ -1,7 +1,13 @@
+import { useState } from "react";
+import { Login } from "./login/login";
 
 function App() {
+
+  const [session,setSession] = useState({});
+
+
   return (
-      <h3 className="text-[20pt] font-bold ">Configuracion inicial</h3>
+     <Login setSession={setSession}/>
   );
 }
 

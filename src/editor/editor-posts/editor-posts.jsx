@@ -33,7 +33,7 @@ export const EditorPosts = ({ postsIsOpen, setPostsIsOpen, setSelectedPost}) => 
           <ChevronLeftIcon className="w-auto h-full" />
         </button>
       </div>
-      <div className="flex flex-col w-full overflow-y-scroll">
+      <div className="flex flex-col w-full sm:h-[93.2vh] overflow-y-scroll scrollbar">
       {dataPosts.map((post) => {
         return (
           <>

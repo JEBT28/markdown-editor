@@ -3,3 +3,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.scrollbar::-webkit-scrollbar {
+  
+    width: 8px;
+  }
+  
+  
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.4);
+    border-radius: 4px;
+  
+  }
+  
+  .scrollbar::-webkit-scrollbar-thumb:active {
+    background-color:  rgba(255,255,255,0.4);;
+  
+  }
+  
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Estilos track de scroll */
+  .scrollbar::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.2);
+    border-radius: 5px;
+    display: none;
+  }
+  
+  .scrollbar::-webkit-scrollbar-track:hover,
+  .scrollbar::-webkit-scrollbar-track:active {
+    background: rgba(255,255,255,0.2);
+    display: block;
+  }

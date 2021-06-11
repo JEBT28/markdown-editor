@@ -3,25 +3,21 @@ import { Login } from "./login/login";
 import {EditorMain} from "./editor/editor-main";
 
 function App() {
-  const [session,setSession] = useState(undefined);
-
-  
-   
+  const [mySession,setSession] = useState(undefined);
+ 
   useEffect(()=>{
-    var cookies = document.cookie.toString();
-    cookies = cookies.replace("sessid=","");
-  
-    if(cookies!== undefined)
-    {
-        setSession(cookies);
+   var sessid = window.localStorage.getItem('sessid');
+    if(sessid!== undefined && sessid!==null)
+    {      
+      setSession(sessid);
     }
   },[]);
 
 
 
-  return session ===undefined ?(
+  return mySession ===undefined ?(
      <Login setSession={setSession}/>
-  ):(<EditorMain session={session}/>);
+  ):(<EditorMain mySession={mySession} setSession={setSession}/>);
 }
 
 export default App;

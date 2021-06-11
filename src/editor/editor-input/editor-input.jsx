@@ -1,23 +1,22 @@
-import React from "react";
+import React, { useState, useLayoutEffect } from "react";
 
+export const EditorInput = ({ setMarkdown, markdown }) => {
+  const onChangeValue = (evt) => {
+    evt.preventDefault();
 
-export const EditorInput=({setMarkdown})=>{
+   
+        setMarkdown(evt.target.value);
+  
 
-    const onChangeValue=(evt) =>{
-        console.log(evt);
+  };
 
-        if(evt.target.value.length>4)
-        {
-            setMarkdown(evt.target.value);            
-        }
-        else{
-            setMarkdown("");
-        }
-    }
-
-    return (
-        <textarea  lang={"es"}  className="w-full h-full px-4 py-2 overflow-y-scroll text-gray-900 border-none resize-none scrollbar focus:ring-0" placeholder="Escribe Markdown" onChange={(evt)=>onChangeValue(evt)}>
-
-        </textarea>
-    )
-}
+  return (
+    <textarea
+      lang={"es"}
+      className="w-full h-full px-4 py-2 overflow-y-scroll text-gray-900 border-none resize-none scrollbar focus:ring-0"
+      placeholder="Escribe Markdown"
+      value={markdown}
+      onChange={onChangeValue}
+    ></textarea>
+  );
+};

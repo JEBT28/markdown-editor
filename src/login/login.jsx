@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { EyeIcon, EyeOffIcon, ArrowSmDownIcon } from "@heroicons/react/solid";
-import axios from "axios";
 
-import { Dialog, Transition } from "@headlessui/react";
-import { data } from "autoprefixer";
 
 export const Login = ({ setSession }) => {
   const [inputType, setType] = useState("password");
@@ -30,12 +27,15 @@ export const Login = ({ setSession }) => {
     evt.preventDefault();
     const dataSend = { user: userValue, password: passwordValue };
 
-    const data = await axios
-      .post("http://localhost/php-md-api/login.php", dataSend)
-      .then((res) => res.data)
-      .catch((error) => alert(error));
-
-    dataResponse = data;  
+      const data = await fetch("http://localhost/php-md-api/login.php",{
+        method: 'POST', 
+        body: JSON.stringify(dataSend),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      }).then( (res) => res.text());
+      
+    dataResponse = await JSON.parse(data);  
     
     if(dataResponse.code===5)
     {
@@ -43,7 +43,7 @@ export const Login = ({ setSession }) => {
     }
     else
     {
-      document.cookie = `sessid=${dataResponse.sessid}`;
+      window.localStorage.setItem('sessid',dataResponse.sessid);
       setSession(dataResponse.sessid);
     }          
     console.log(dataResponse);

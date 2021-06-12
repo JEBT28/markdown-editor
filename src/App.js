@@ -9,7 +9,7 @@ function App() {
    var sessid = window.localStorage.getItem('sessid');
     if(sessid!== undefined && sessid!==null)
     {      
-      setSession(sessid);
+      setSession({user: 1,sessid:sessid});
     }
   },[]);
 

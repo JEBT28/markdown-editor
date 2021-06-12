@@ -7,14 +7,13 @@ export const EditorOutput = ({ markdown }) => {
 
   const handleClick = () => {
     setOutputIsVisible(!outputIsVisible);
-    console.log(outputIsVisible);
   };
 
   return (
     <div
       className={`flex flex-col h-full lg:flex-row w-full ${
-        outputIsVisible ? " w-full" : " h-10 lg:h-full lg:w-10"
-      } max-h-full bg-white`}
+        outputIsVisible ? " w-full h-1/2 lg:h-full  " : " h-10 lg:h-full lg:w-10"
+      } bg-white`}
     >
       <label
         htmlFor="output-visible"
@@ -30,11 +29,11 @@ export const EditorOutput = ({ markdown }) => {
         />
       </label>
       <input type="checkbox" id="output-visible" className="hidden" />
-      <div className={`w-full h-auto overflow-y-scroll scrollbar ${
+      <div className={`w-full h-auto  overflow-y-scroll scrollbar ${
           outputIsVisible ? "block" : "hidden"
       }`}> 
       <Markdown
-        className={`w-full h-[max-content]  px-4 py-2 mx-auto  prose-xl md:prose prose-green`}
+        className={`w-full h-full px-4 py-2 mx-auto  prose-xl md:prose prose-green`}
       >
         {markdown}
       </Markdown>

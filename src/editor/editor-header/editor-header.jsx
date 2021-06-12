@@ -7,22 +7,32 @@ export const EditorHeader = ({
   setSession,
   savePost,
   setTitle,
-  title
+  title,
+  mySession
 }) => {
 
   const onChangeValue = (evt) => {
     evt.preventDefault();
-
-   
         setTitle(evt.target.value);
- 
   };
 
-  const destroySession=()=>{
-    window.localStorage.clear();
-    setSession(undefined);    
+  const destroySession= async ()=>{
+    
+    const data = await fetch("http://localhost/php-md-api/logout.php?sessid="+encodeURI(mySession.sessid), {
+      method: "GET",       
+    }).then((res) => res.text());  
+
+    console.log(data);
+    const resp = await JSON.parse(data);
+
+    if(resp.msg==="OK")
+    { 
+      window.localStorage.clear();
+      setSession(undefined);    
+    }
   } 
 
+  
 
   return (
     <header className="flex w-full h-12 px-4 py-2 text-white bg-gray-900 ">

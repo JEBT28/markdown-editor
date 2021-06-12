@@ -35,18 +35,18 @@ export const Login = ({ setSession }) => {
         }
       }).then( (res) => res.text());
       
-    dataResponse = await JSON.parse(data);  
+    dataResponse = await JSON.parse(data);
     
+   
     if(dataResponse.code===5)
     {
       setIsCredentialsOk(false);
     }
     else
     {
-      window.localStorage.setItem('sessid',dataResponse.sessid);
-      setSession(dataResponse.sessid);
+      window.localStorage.setItem('sessid',dataResponse.body.sessid);
+      setSession(dataResponse.body);
     }          
-    console.log(dataResponse);
  
   };
 

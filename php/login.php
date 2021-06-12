@@ -3,8 +3,8 @@ include_once "cors.php";
 
 session_start();
 $servername = "localhost";
-$username = "admin";
-$password_db = "14091105Nike@";
+$username = "root";
+$password_db = "";
 $db = "POSTSDB";
 
 $connection = new mysqli($servername, $username, $password_db, $db);
@@ -23,19 +23,18 @@ $password = $_POST['password'];
 $sql = "SELECT * FROM USERS WHERE user='$user' AND password='$password'";
 $result = $connection->query($sql);
 if ($result->num_rows>0) {
-    
+    $obj = new \stdClass();
     $obj->code = 1;
 
     $obj->msg = "Bienvenido";
 
     $row = mysqli_fetch_assoc($result);
-    $first_name = $row['FIRST_NAME'];
-    $last_name = $row['LAST_NAME'];
-
-    $obj->name = "$first_name $last_name";
-	$obj->user=$user;
-    $obj->sessid=session_id();
-    $_SESSION['user']=$user;
+    
+    $id_user = $row['ID'];
+    $obj->body = new \stdClass();
+	$obj->body->user=$id_user;
+    $obj->body->sessid=session_id();
+    $_SESSION['user']=$id_user;
 
     echo json_encode($obj);
 } else {

@@ -1,13 +1,9 @@
-import React, { useState, useLayoutEffect } from "react";
+import React from "react";
 
 export const EditorInput = ({ setMarkdown, markdown }) => {
   const onChangeValue = (evt) => {
     evt.preventDefault();
-
-   
-        setMarkdown(evt.target.value);
-  
-
+    setMarkdown(evt.target.value);
   };
 
   return (

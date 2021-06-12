@@ -4,12 +4,11 @@ import { EditorInput } from "./editor-input/editor-input";
 import { EditorOutput } from "./editor-output/editor-output";
 import { EditorPosts } from "./editor-posts/editor-posts";
 
-export const EditorMain = ({ mySession,setSession }) => {
+export const EditorMain = ({ mySession, setSession }) => {
   useLayoutEffect(() => {
-   
-     loadPosts();
-      
-  }, []);
+    loadPosts();
+
+  });
 
   const [postsIsOpen, setPostsIsOpen] = useState(false);
 
@@ -24,57 +23,72 @@ export const EditorMain = ({ mySession,setSession }) => {
   const savePost = async () => {
     if (selectedPost === undefined) {
 
-      const post = {title:title,content:markdown,user:1};
-      const dataSend = post;
-      console.log(post)
-;      const data = await fetch("http://localhost/php-md-api/posts.php", {
+      const post = { title: title, content: markdown, user: 1 };
+      const dataSend = { post: post, sessid: mySession.sessid };
+      const data = await fetch("http://localhost/php-md-api/posts.php", {
         method: "POST",
         body: JSON.stringify(dataSend),
         headers: {
           "Content-Type": "application/json",
         },
       }).then((res) => res.text());
-      console.log(data);
       const dataResponse = await JSON.parse(data);
-      
-      console.log(dataResponse);
-        
-      if(dataResponse.msg==="OK")
-      {
+
+
+      if (dataResponse.msg === "OK") {
         const post = dataResponse.body;
 
-        setDataPosts([...dataPosts,post]);
-        setSelectedPost(post);  
+        setDataPosts([...dataPosts, post]);
+        setSelectedPost(post);
       }
     } else {
       selectedPost.content = markdown;
       selectedPost.title = title;
-      const dataSend = selectedPost;
+      const dataSend = { post: selectedPost, sessid: mySession.sessid };
       const data = await fetch("http://localhost/php-md-api/posts.php", {
-        method:"PUT",
+        method: "PUT",
         body: JSON.stringify(dataSend),
         headers: {
           "Content-Type": "application/json",
         },
       }).then((res) => res.text());
 
-      
       const dataResponse = await JSON.parse(data);
-      
-    
+
+      if (dataResponse.msg === "OK") {
+
+      }
     }
   };
-  const loadPosts =  async () => {
+  const loadPosts = async () => {
 
-    const data = await fetch("http://localhost/php-md-api/posts.php", {
+    const data = await fetch("http://localhost/php-md-api/posts.php?sessid=" + encodeURI(mySession.sessid), {
       method: "GET",
-    }).then((res) => res.text());  
-    const resp = await JSON.parse(data).body; 
-    
-    const posts =  Array.from(resp);
-    
+    }).then((res) => res.text());
+    const resp = await JSON.parse(data).body;
+
+    const posts = Array.from(resp);
+
     setDataPosts(posts);
   }
+
+  const deletePost = async (id) => {
+    const dataSend = { sessid: mySession.sessid, id: id };
+    const data = await fetch("http://localhost/php-md-api/posts.php", {
+      method: "DELETE",
+      body: JSON.stringify(dataSend),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.text());
+
+
+    const dataResponse = await JSON.parse(data);
+
+    if (dataResponse.msg === "OK") {
+      setDataPosts([...dataPosts.filter(p => p.id !== id)]);
+    }
+  };
 
   const changeSelectedPost = async (evt, id) => {
     evt.preventDefault();
@@ -93,6 +107,7 @@ export const EditorMain = ({ mySession,setSession }) => {
         setSelectedPost={changeSelectedPost}
         setDataPosts={setDataPosts}
         dataPosts={dataPosts}
+        deletePost={deletePost}
       />
       <main className="flex flex-col w-full h-full">
         <EditorHeader
@@ -102,6 +117,7 @@ export const EditorMain = ({ mySession,setSession }) => {
           savePost={savePost}
           title={title}
           setTitle={setTitle}
+          mySession={mySession}
         />
         <div className="h-[95.7vh] w-full  flex mb-0 flex-col lg:flex-row gap-2 bg-gray-900">
           <EditorInput

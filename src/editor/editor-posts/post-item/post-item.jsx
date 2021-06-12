@@ -1,10 +1,10 @@
 import React from "react";
+import { DeleteButton } from "./delete-button";
 
 import {
   UserIcon,
   PencilIcon,
-  GlobeAltIcon,
-  TrashIcon,
+  GlobeAltIcon
 } from "@heroicons/react/solid";
 
 export const PostItem = ({
@@ -17,10 +17,7 @@ export const PostItem = ({
   setSelectedPost,
   deletePost
 }) => {
-  const eliminarPost = (evt) => {
-    evt.preventDefault();
-    deletePost(id);
-  };
+
   if (disabled) {
     return <></>;
   } else {
@@ -57,14 +54,7 @@ export const PostItem = ({
               </i>
               {autor}
             </h6>
-            <button
-              onClick={eliminarPost}
-              className=" px-2 mx-1 h-full focus:outline-none font-semibold text-white justify-center border-red-500 bg-red-500  items-center flex space-x-2 rounded-md border-[3px] hover:bg-red-700"
-            >
-              {" "}
-              <TrashIcon className="w-auto h-4 " />
-              <h3 className="hidden ml-2 w-max md:inline">Eliminar</h3>
-            </button>
+           <DeleteButton deletePost={deletePost} id={id}/>
           </div>
         </div>
       </div>
